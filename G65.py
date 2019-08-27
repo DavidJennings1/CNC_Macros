@@ -1,7 +1,7 @@
 '''Emulate G65 macro to analyze macro assignment'''
 
 
-class Macro():
+class Macro:
     def __init__(self, var5003, var4001, var4003, var24, var25, var18, var26,
                  var2, var9, var17, var3, var23):
         self.var5003 = var5003  # Previous Z
@@ -18,11 +18,14 @@ class Macro():
         self.var23 = var23  # W from macro call
 
     def generate_gcode(self):
-        if var5003 >= var18:
+        if self.var5003 >= self.var18:
             ln1 = 'G0G90X{}Y{}'.format(self.var24, self.var25)
+            print(ln1)
         else:
             ln1 = 'G0G90Z{}'.format(self.var26)
             ln2 = 'G0G90X{}Y{}'.format(self.var24, self.var25)
+            print(ln1)
+            print(ln2)
         var103 = self.var23-(self.var26+.025)
         var104 = int(var103/(self.var17*(-1)))
         var105 = (var103/var104)
@@ -30,6 +33,18 @@ class Macro():
         var107 = 1
         ln3 = 'G1G90Z{}F200.'.format(self.var26+.025)
         print(ln3)
+        var108 = (self.var26+.025)
+        var109 = .01
+        var110 = 2*((var106-var109)/var106)
+        var111 = self.var9*var110
+        ln4 = 'G1G41D#518X{}F20.'.format(self.var24+var106)
+        print(ln4)
+        while (var107 < (var104+1)):
+            ln5 = 'G3I-{}Z{}F{}'.format(var106, var108+(var107*var105),
+                                        self.var9*var110)
+            var107 += 1
+            print(ln5)
 
 
 g65 = Macro(2.25, 0, 90, 5.8893, 9.647, .3182, .3182, .5, 5., .1, 0, -.0203)
+g65.generate_gcode()
