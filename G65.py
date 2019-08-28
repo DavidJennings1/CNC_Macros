@@ -19,11 +19,11 @@ class Macro:
 
     def generate_gcode(self):
         if self.var5003 >= self.var18:
-            ln1 = 'G0G90X{:.4f}Y{:.4f}'.format(self.var24, self.var25)
+            ln1 = 'G0G90X{}Y{}'.format(self.var24, self.var25)
             print(ln1)
         else:
-            ln1 = 'G0G90Z{:.4f}'.format(self.var26)
-            ln2 = 'G0G90X{:.4f}Y{:.4f}'.format(self.var24, self.var25)
+            ln1 = 'G0G90Z{}'.format(self.var26)
+            ln2 = 'G0G90X{}Y{}'.format(self.var24, self.var25)
             print(ln1)
             print(ln2)
         var103 = self.var23-(self.var26+.025)
@@ -31,7 +31,7 @@ class Macro:
         var105 = (var103/var104)
         var106 = (self.var2/2)
         var107 = 1
-        ln3 = 'G1G90Z{:.4f}F200.'.format(self.var26+.025)
+        ln3 = 'G1G90Z{}F200.'.format(self.var26+.025)
         print(ln3)
         var108 = (self.var26+.025)
         var109 = .01
@@ -40,10 +40,19 @@ class Macro:
         ln4 = 'G1G41D#518X{:.4f}F20.'.format(self.var24+var106)
         print(ln4)
         while (var107 < (var104+1)):
-            ln5 = 'G3I-{:.4f}Z{:.4f}F{:.2f}'.format(var106, var108+(var107*var105),
-                                        self.var9*var110)
+            ln5 = 'G3I-{:.4f}Z{:.4f}F{:.2f}'.format(var106,
+                                                    var108+(var107*var105),
+                                                    self.var9*var110)
             var107 += 1
             print(ln5)
+        ln6 = 'G3I-{:.4}'.format(var106)
+        ln7 = 'G3X{}Y{}R{}F{}'.format(self.var24-(var106-.01), self.var25,
+                                      var106-.005, self.var9*2)
+        ln8 = 'G1G40X{}Y{}'.format(self.var24, self.var25)
+        print(ln6)
+        print(ln7)
+        print(ln8)
+        print(var111)
 
 
 g65 = Macro(2.25, 0, 90, 5.8893, 9.647, .3182, .3182, .5, 5., .1, 0, -.0203)
