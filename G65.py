@@ -25,7 +25,7 @@ class Macro:
             ln1 = 'G0G90X{}Y{}'.format(self.var24, self.var25)
             print(ln1)
         else:
-            ln1 = 'G0G90Z{}'.format(self.var26)
+            ln1 = 'G0G90Z{}'.format(self.var18)
             ln2 = 'G0G90X{}Y{}'.format(self.var24, self.var25)
             print(ln1)
             print(ln2)
