@@ -1,5 +1,7 @@
 '''Emulate G65 macro to analyze CYCLE189 macro assignment'''
 
+# Need to learn to round up
+
 
 class Macro:
     def __init__(self, b_size, x_pos, y_pos, r_pln, z_top,
@@ -15,16 +17,16 @@ class Macro:
 
     def generate_gcode(self):
         r103 = self.r23-(self.r26+.025)
-        r104 = int(r103/(self.r17*(-1)))
+        # print('r103', r103)
+        r104 = int(r103/(self.r17*(-1))+1)
+        # print('r104', r104)
         r105 = (r103/r104)
-        r106 = ((self.r2/2)*-1)
-        r108 = self.r26+.025
-        r103 = self.r23-(self.r26+.025)
-        r104 = int(r103/(self.r17*(-1)))
-        r105 = (r103/r104)
+        # print('r105', r105)
         r106 = (self.r2/2)
-        r107 = 1
+        # print('r106', r106)
         r108 = self.r26+.025
+        # print('r108', r108)
+        r107 = 1
         r109 = (self.r2/4)
         ln3 = 'G0G90X{}Y{}'.format(self.r24, self.r25)
         ln4 = 'G0G90Z{:.4f}'.format(self.r18)
@@ -35,14 +37,14 @@ class Macro:
         print(ln5)
         print(ln6)
         while (r107 < (r104+1)):
-            ln7 = 'G3I{:.4f}J0.0Z{:.4f}F{:.2f}'.format(r106*-1,
+            ln7 = 'G3I{:.4f}J0.0Z{:.4f}F{:.2f}'.format(r106*(-1),
                                                        r108+(r107*r105),
                                                        self.r9)
             r107 += 1
             print(ln7)
-        ln8 = 'G3I{:.4f}J0.0'.format(r106*-1)
+        ln8 = 'G3I{:.4f}J0.0'.format(r106*(-1))
         ln9 = 'G3X{}Y{}I{}J0.0F{:.2f}'.format(self.r24+r109, self.r25+r109,
-                                              r109*-1, self.r9*2)
+                                              r109*(-1), self.r9*2)
         ln10 = 'G1X{}Y{}'.format(self.r24, self.r25)
         print(ln8)
         print(ln9)
@@ -51,11 +53,11 @@ class Macro:
         ln11 = 'G1X{}Y{}F{:.2f}'.format(self.r24+r109, self.r25+r109,
                                         self.r9*2)
         ln111 = 'G2X{}Y{}I0.0J{}F{:.2f}'.format(self.r24+r106, self.r25,
-                                                r109*-1, self.r9)
+                                                r109*(-1), self.r9)
         print(ln11)
         print(ln111)
         while r107 > -1:
-            ln12 = 'G2I{:.4f}J0.0Z{:.4f}F{:.2f}'.format(r106*-1,
+            ln12 = 'G2I{:.4f}J0.0Z{:.4f}F{:.2f}'.format(r106*(-1),
                                                         r108+(r107*r105),
                                                         self.r9)
             print(ln12)
@@ -67,5 +69,5 @@ class Macro:
         print('M17')
 
 
-g65 = Macro(.75, 5.8883, 10.2375, .0947, -.0053, 5, .1, -.3438)
+g65 = Macro(.5, 5.8883, 10.2375, .0947, -.0053, 5, .1, -.3438)
 g65.generate_gcode()
