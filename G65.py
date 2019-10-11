@@ -1,5 +1,7 @@
 '''Emulate G65 macro to analyze macro assignment'''
 
+import math
+
 
 class Macro:
     def __init__(self, var5003, var4001, var4003, var24, var25, var18, var26,
@@ -30,7 +32,7 @@ class Macro:
             print(ln1)
             print(ln2)
         var103 = self.var23-(self.var26+.025)
-        var104 = int(var103/(self.var17*(-1)))
+        var104 = math.ceil(var103/(self.var17*(-1)))
         var105 = (var103/var104)
         var106 = (self.var2/2)
         var107 = 1

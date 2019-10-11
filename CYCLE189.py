@@ -1,11 +1,11 @@
 '''Emulate G65 macro to analyze CYCLE189 macro assignment'''
 
-# Need to learn to round up
+import math
 
 
 class Macro:
     def __init__(self, b_size, x_pos, y_pos, r_pln, z_top,
-                 f_rate, step, z_bot):
+                 f_rate, z_bot, step):
         self.r2 = b_size  # B from macro call
         self.r24 = x_pos  # X from macro call
         self.r25 = y_pos  # Y from macro call
@@ -18,8 +18,8 @@ class Macro:
     def generate_gcode(self):
         r103 = self.r23-(self.r26+.025)
         # print('r103', r103)
-        r104 = int(r103/(self.r17*(-1))+1)
-        # print('r104', r104)
+        r104 = math.ceil(r103/(self.r17*(-1)))
+        print('r104', r104)
         r105 = (r103/r104)
         # print('r105', r105)
         r106 = (self.r2/2)
@@ -69,5 +69,5 @@ class Macro:
         print('M17')
 
 
-g65 = Macro(.5, 5.8883, 10.2375, .0947, -.0053, 5, .1, -.3438)
+g65 = Macro(.5, 5.8893, 10.2375, .4182, .3182, 5, -.0203, .1)
 g65.generate_gcode()
